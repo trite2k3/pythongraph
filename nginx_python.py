@@ -16,12 +16,12 @@ def ping(ip):
 		return results
 
 #pull dhcp.leases file from router
-p = subprocess.Popen(["scp", "user@10.0.1.1:/tmp/dhcp.leases", "dhcp.leases"])
+p = subprocess.Popen(["scp", "root@10.0.1.1:/tmp/dhcp.leases", "dhcp.leases"])
 sts = os.waitpid(p.pid, 0)
 
 #SSH-command function
 def sshcommand(command):
-	ssh = subprocess.Popen(["ssh", "%s" % "user@10.0.1.1", command],
+	ssh = subprocess.Popen(["ssh", "%s" % "root@10.0.1.1", command],
 		shell=False,
 		stdout=subprocess.PIPE,
 		stderr=subprocess.PIPE)
