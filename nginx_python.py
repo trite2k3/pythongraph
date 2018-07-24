@@ -59,6 +59,13 @@ else:
         interfacestatus2 = "#ff0000"
 
 
+#vpn status
+result = ping("10.0.1.226")
+if result == "up":
+	vpnstatus = "#00ff00"
+else:
+	vpnstatus = "#ff0000"
+
 #define graph
 graph = Digraph(comment='Network')
 
@@ -66,6 +73,7 @@ graph = Digraph(comment='Network')
 graph.node(finalresultarr[1], finalresultarr[1], style="filled", fillcolor=interfacestatus)
 graph.node(finalresultarr2[1], finalresultarr2[1], style="filled", fillcolor=interfacestatus2)
 graph.node('OpenWRT', 'OpenWRT', style="filled", fillcolor="#00ff00")
+graph.node('Indra', 'Indra', style="filled", fillcolor=vpnstatus)
 
 #populate nodes and edges also check for up or down status
 i = 0
@@ -81,8 +89,11 @@ for host in ips:
 #custom edges for static router entry
 graph.edge('OpenWRT', finalresultarr[1], constraint='false')
 graph.edge('OpenWRT', finalresultarr2[1], constraint='false')
+graph.edge('OpenWRT', 'Indra', constraint='false')
+graph.edge('Indra', 'OpenWRT', constraint='false')
 
 #set format png and generate diagram, general graph settings
 graph.format = 'png'
 graph.node_attr['shape']='box'
+graph.engine = 'circo'
 graph.render('graph', view=False)
